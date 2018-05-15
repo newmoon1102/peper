@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+  <!-- css-->
+  <link rel="stylesheet" type="text/css" href="Bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/common.css">
+  <!-- js -->
+  <script type="text/javascript" src="Bootstrap/js/jquery.min.js"></script>
+  <script type="text/javascript" src="Bootstrap/js/bootstrap.min.js"></script> 
+  <script type="application/javascript" src="/libs/qimessaging/2/qimessaging.js"></script>
+  <script type="application/javascript" src="js/manager/webSql.js"></script>
+  <script type="application/javascript" src="js/manager/localStorage.js"></script>
+  <script>
+    function startSession() {
+        donburi.webdb.open();
+        QiSession(
+            function(session) {
+                session.service("ALMemory").then(function (ALMemory) {
+                    ALMemory.raiseEvent("OADonburi/Index/Loading", "").then(function (ALMemory) {
+                    });
+                    ALMemory.insertData("DONBURI/UserInfo/IsMainVC", 0).then(function (ALMemory) {
+                    });
+                    // Subscribe listen to GetSQLiteDatabase event
+                    ALMemory.subscriber("OADonburi/SQLManager/GetSQLiteDbDone").then(function (subscriber) {
+                      subscriber.signal.connect(function (data) {
+                          handleDataAndInsertIntoWebSQL(data, function(){
+                              var delayMillis = 3000; // wait 3 second for insert data into WebSQL
+                              setTimeout(function() {
+                                  window.location.assign("main.html");
+                              }, delayMillis);
+                          });
+                      });
+                    });
+
+                    ALMemory.subscriber("OADonburi/Setting/OpenSetting").then(function (subscriber) {
+                      subscriber.signal.connect(function (data) {
+                          window.location.assign("setting.html");
+                      });
+                    });
+
+                    ALMemory.subscriber("OADonburi/SocketListener/SocketStatus").then(function (subscriber) {
+                      subscriber.signal.connect(function (status) {
+                          if (status == "OK") {
+                            ALMemory.raiseEvent("OADonburi/SocketManager/GetData", "").then(function (ALMemory) {           
+                            });
+                          }else{
+                            window.location.assign("setting.html");
+                          }
+                      });
+                    });
+
+                    ALMemory.subscriber("OADonburi/SQLManager/GetSetupInfoDone").then(function (subscriber) {
+                      subscriber.signal.connect(function (data) {
+                          var jsonDictionary = JSON.parse(data);
+                          var jsonArrSetup  = jsonDictionary['T_Setup'];
+                          var arrSetup = JSON.parse(jsonArrSetup);
+                          var iPadIpAddr = "";
+                          var iPadPort = "";
+                          for (var i = 0; i < arrSetup.length; i++) {
+                              if (arrSetup[i]["key"] == "ip_addr") {
+                                iPadIpAddr = arrSetup[i]["value"];
+                              }else if (arrSetup[i]["key"] == "port_addr") {
+                                iPadPort = arrSetup[i]["value"];
+                              }
+                          }
+                          if (iPadIpAddr && iPadPort) {
+                              localDb.userInfo.setIpadIpAddress(iPadIpAddr);
+                              localDb.userInfo.setIpadPort(iPadPort);
+                              var setupInfo = '{"iPadIpAddr":"' + iPadIpAddr + '","iPadPort":' + iPadPort + '}';
+                              ALMemory.raiseEvent("OADonburi/SocketListener/CheckStatusSocket", setupInfo).then(function (ALMemory) {});
+                          }else{
+                              window.location.assign("setting.html");
+                          }
+                      }).then(function(value) {
+                          ALMemory.raiseEvent("OADonburi/SQLManager/GetSetupInfo", "").then(function (ALMemory) {});
+                      });
+                    });
+                });
+            }, function() {
+                console.log("disconnected")
+            }
+        );
+    }
+
+  </script>
+</head>
+
+<body onload="startSession();" >
+<div class="container">
+  <div class="index-loading">
+    <h1>データを更新中</h1>
+    <div id="fountainG">
+      <div id="fountainG_1" class="fountainG"></div>
+      <div id="fountainG_2" class="fountainG"></div>
+      <div id="fountainG_3" class="fountainG"></div>
+      <div id="fountainG_4" class="fountainG"></div>
+      <div id="fountainG_5" class="fountainG"></div>
+      <div id="fountainG_6" class="fountainG"></div>
+      <div id="fountainG_7" class="fountainG"></div>
+      <div id="fountainG_8" class="fountainG"></div>
+    </div>    
+  </div>
+</div>
+</body>
+</html>
+

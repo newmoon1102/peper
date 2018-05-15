@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+    <!-- css-->
+    <link rel="stylesheet" type="text/css" href="Bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <!-- js -->
+    <script type="text/javascript" src="Bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="Bootstrap/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/libs/qimessaging/2/qimessaging.js"></script>
+    <script type="application/javascript" src="js/lib/fastclick.js"></script> 
+    <script type="application/javascript" src="js/manager/localStorage.js"></script>
+    <script type="application/javascript" src="js/app/reception.js"></script>
+</head>
+<body onload="initData();">
+<div class="container tablet-width"> 
+    <div class="navbar navi-bar-margin">
+        <button id="btn_nav_back" class="navi-button navi-button-left">戻る</button>
+    </div>
+    <div class="row div-row-space-reception"></div>
+    <div class="row main-row-width">
+        <div class="col-sm-6">
+            <button id="btn_department" class="btn-large-left">アポあり</button>
+        </div>
+        <div class="col-sm-6">
+            <button id="btn_call_no_appo" class="btn-large-right">アポなし</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

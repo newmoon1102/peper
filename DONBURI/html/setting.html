@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+  <!-- css-->
+  <link rel="stylesheet" type="text/css" href="Bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/common.css">
+  <!-- js -->
+  <script type="text/javascript" src="Bootstrap/js/jquery.min.js"></script>
+  <script type="text/javascript" src="Bootstrap/js/bootstrap.min.js"></script> 
+  <script src="/libs/qimessaging/2/qimessaging.js"></script>
+  <script type="application/javascript" src="js/manager/webSql.js"></script>
+  <script type="application/javascript" src="js/manager/localStorage.js"></script>
+  <script type="application/javascript" src="js/lib/fastclick.js"></script> 
+  <script type="application/javascript" src="js/app/setting.js"></script>
+</head>
+
+<body onload="initData();">
+<div class="container tablet-width"> 
+    <div class="navbar navi-bar-margin">
+        <button id="btn_nav_close" class="navi-button navi-button-right">閉じる</button>
+    </div>
+
+    <div class="row" style="height: 100px;">
+    </div>
+
+    <div class="row" style="height: 120px;">
+        <div class="col-sm-4">
+          <h2 style="text-align: right;">iPadのIP</h2>
+        </div>
+        <div class="col-sm-4" >
+          <input id="input_ipad_ip" type="text" style="height:50px; width: 100%; margin-top: 10px; font-size: 30px;" onchange="saveIpadIpAddress()">
+        </div>
+        <div class="col-sm-4"> 
+          <h2>例： 192.168.1.111</h2>
+        </div>
+    </div>
+
+    <div class="row" style="height: 120px;">
+        <div class="col-sm-4">
+          <h2 style="text-align: right;">iPadのポート</h2>
+        </div>
+        <div class="col-sm-4" >
+          <input id="input_ipad_port" type="text" style="height:50px; width: 100%; margin-top: 10px; font-size: 30px;" onchange="saveIpadPort()">
+        </div>
+        <div class="col-sm-4" >
+           <h2>例： 4000</h2>
+        </div>
+    </div>
+
+    <div class="row" style="height: 120px;">
+        <div class="col-sm-2 col-sm-offset-5">
+            <button id="btn_check_connect" class="button-check-connect" style="margin-left: 25px;" autofocus>接続チェック</button>
+        </div>
+    </div>
+
+    <div class="row" style="height: 120px;">
+        <div class="col-sm-6 col-sm-offset-4">
+            <div class="col-sm-12" style="font-size: 40px; margin: 10px 10px;" id="lb_msg_connect_status" ></div>
+        </div>
+        
+    </div>
+
+    <div class="row" style="height: 120px; margin-top: 150px;">
+      <div class="col-sm-4">
+        <h2 style="text-align: right;">アプリ終了</h2>
+      </div>
+
+      <div class="col-sm-8">
+        <button type="button" id="btn_close_app" data-toggle="modal" data-target="#myModal">終了</button>
+      </div>
+
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 1207px;font-size: 50px;font-weight: bold;margin-top: 250px;">
+            <div class="modal-content">
+              <div class="modal-body" style="margin: 0px auto;text-align: center;padding: 50px;">
+                  アプリを閉じますか?
+              </div>
+              <div class="modal-footer" style="padding: 50px;">
+                <button type="button" id="btn_close_app_ok" class="btn btn-primary btn-disabled" style="font-size: 50px;font-weight: bold;">閉じる</button>
+                <button type="button" id="btn_close_app_cancel" class="btn btn-primary btn-disabled" style="font-size: 50px;font-weight: bold;">キャンセル</button>
+                <button type="button" id="btn_close_app_dismiss" class="btn btn-primary btn-disabled" data-dismiss="modal" style="display: none;"></button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  <!--   <div class="row" style="margin: 50px 0px 0px;" >
+      <div class="col-xs-2" style="padding-left: 0px;">
+        <div style="padding-top: 25px;">画面放置時</div>
+      </div>
+      <div class="col-xs-2">
+        <img src="" id="volume_switch" class="img-responsive switch-on" >
+      </div>
+      <div class="col-xs-2" >
+        <img src="Assets/image/btn_minus.png" id="volume_minus" class="img-responsive" >
+      </div>
+      <div class="col-xs-2">
+        <div id="st_volume" style="font-size: 1.6em;" ></div>
+      </div>
+      <div class="col-xs-2" style="margin-left: -30px;">
+        <img src="Assets/image/btn_plus.png" id="volume_plus" class="img-responsive" >
+      </div>
+    </div> -->
+
+   <!--  <div class="row" style="height: 200px;">
+        <div class="col-sm-4">
+          <div style="margin-top: 20px; text-align: right; font-size: 50px;">音量</div>
+        </div>
+        <div class="col-sm-3" style="padding-left: 150px;">
+          <button id="btn_minus_volume" class="button-minus-volume"></button>
+        </div>
+        <div class="col-sm-2">
+          <div id="st_volume" style="font-size: 90px; margin: 0px 10px;" >21</div>
+        </div>
+        <div class="col-sm-3">
+          <button id="btn_plus_volume" class="button-plus-volume"></button>
+        </div>
+    </div> -->
+
+   <!--  <div class="row" style="height: 300px; margin-top: 10px;">
+        <div class="col-sm-4">
+            <button id="btn_update_question" class="button-small color-aqua">問診データ更新</button>
+        </div>
+        <div class="col-sm-4">
+            <button id="btn_update_organization" class="button-small color-aqua">組織データ更新</button>
+        </div>
+        <div class="col-sm-4">
+            <button id="btn_update_appointment_item" class="button-small color-aqua">アポイント項目データ更新</button>
+        </div>
+    </div> -->
+</div>
+</body>
+</html>

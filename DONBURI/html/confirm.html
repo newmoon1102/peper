@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+    <!-- css-->
+    <link rel="stylesheet" type="text/css" href="Bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <!-- js -->
+    <script type="text/javascript" src="Bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="Bootstrap/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/libs/qimessaging/2/qimessaging.js"></script>
+    <script type="application/javascript" src="js/lib/fastclick.js"></script> 
+    <script type="application/javascript" src="js/manager/webSql.js"></script>
+    <script type="application/javascript" src="js/manager/localStorage.js"></script>
+    <script type="application/javascript" src="js/app/confirm.js"></script> 
+</head>
+<body onload="initData();">
+<div class="container tablet-width"> 
+    <div class="navbar navi-bar-margin">
+        <button id="btn_nav_back" class="navi-button navi-button-left">戻る</button>
+        <button id="btn_nav_result" class="navi-button navi-button-right">結果へ</button>
+    </div>
+
+    <div class="row">
+        <div class="large-title-box">～～～問診確認～～～</div>
+    </div>
+
+    <div class="row"> 
+        <table id="tableID" class="tbl-confirm" bgcolor = "#FFFFFF" align="center">
+            <tbody id="tbl-confirm" class="tbl-confirm">
+                <tr><td class='row-confirm'></td></tr>
+                <tr><td class='row-confirm'></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
